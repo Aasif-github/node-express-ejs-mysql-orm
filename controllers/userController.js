@@ -2,13 +2,22 @@ const { where } = require('sequelize');
 const db = require('../models/index.js');
 const User = db.user;
 const Contact = db.contact;
+const myEmitter = require('./emitter.js');
 
 const { v4: uuidv4 } = require('uuid');
 
+
+
+
+
+
 const getUsers = async(req, res) => {    
-    const data = await User.findAll();
+    const users = await User.findAll();
+   
+    myEmitter.emit('userProfileSeen', 'Akash');
     
-    res.status(200).json({data:data});
+    // res.render('users', { users });
+    res.status(200).json({data:users});
 }
 
 const getUser = async(req, res) => {
@@ -17,14 +26,14 @@ const getUser = async(req, res) => {
             id:req.params.id
         }
     });
-
+    
     res.status(200).json({data:userDataById});
 }
 
 const addUser = async(req, res) => {
     const user = req.body;
     let userData;
-
+    console.log(user);
     if(user.length > 1){
         //create bulk
         userData = await User.bulkCreate(user); 

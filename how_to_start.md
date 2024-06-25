@@ -1,4 +1,13 @@
 
+1. Start Xampp
+sudo /opt/lampp/manager-linux-x64.run
+2. npm run dev
+
+
+
+
+
+
 1.install npm package
 2. create server with express
 3. create connection with mysql

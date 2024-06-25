@@ -8,7 +8,7 @@ User.init(
   {
     // Model attributes are defined here
     user_uuid:{            
-      type: DataTypes.STRING,
+      type: DataTypes.UUIDV4,
       // defaultValue: DataTypes.UUIDV4 // Or DataTypes.UUIDV1            
     },
     first_name: {
