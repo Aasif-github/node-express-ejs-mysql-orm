@@ -5,6 +5,7 @@ const PORT = 3000;
 const ejs = require('ejs');
 const path = require('path');
 
+
 // controller
 const userCtr = require('./controllers/userController');
 const myEmitter = require('./controllers/emitter.js');
@@ -44,6 +45,8 @@ app.delete('/user/:id', userCtr.deleteUser);
 
 //
 app.get('/users/details', userCtr.getFullDetails);
+
+app.get('/user-pro', userCtr.getStoreProcedureValue);
 
 app.listen(PORT, () => {
     console.log(`server is running on ${PORT}`);

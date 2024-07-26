@@ -8,8 +8,8 @@ User.init(
   {
     // Model attributes are defined here
     user_uuid:{            
-      type: DataTypes.UUIDV4,
-      // defaultValue: DataTypes.UUIDV4 // Or DataTypes.UUIDV1            
+      type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4      
     },
     first_name: {
       type: DataTypes.STRING,
@@ -37,7 +37,7 @@ User.init(
   },
 );
 // the defined model is the class itself
-console.log(User === sequelize.models.User); // true
+// console.log(User === sequelize.models.User); // true
 
 return User;
 }

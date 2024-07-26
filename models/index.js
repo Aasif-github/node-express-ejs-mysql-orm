@@ -35,4 +35,7 @@ db.sequelize.sync();
 // db.sequelize.sync({ alter:true }); // it update's if any change in table
 // db.sequelize.sync({ force:true }); // it drops table everytime & create new
 
-  module.exports = db;
+  module.exports = {
+    db,
+    sequelize
+  };

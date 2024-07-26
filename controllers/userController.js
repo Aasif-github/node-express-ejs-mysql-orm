@@ -1,15 +1,15 @@
 const { where } = require('sequelize');
-const db = require('../models/index.js');
+const {db, sequelize} = require('../models/index.js');
 const User = db.user;
 const Contact = db.contact;
 const myEmitter = require('./emitter.js');
 
 const { v4: uuidv4 } = require('uuid');
 
+// read user through Store Procedure --
+/*
 
-
-
-
+*/ 
 
 const getUsers = async(req, res) => {    
     const users = await User.findAll();
@@ -85,6 +85,21 @@ const getFullDetails = async(req, res) => {
     res.status(200).json({data: userDetails});
 }
 
+const getStoreProcedureValue = async(req, res) => {
+
+    try{
+        const [results, metadata] = await sequelize.query('CALL getAll()');
+        console.log("-----------------------------------------------")
+        console.log('results:',results, metadata);
+        console.log("-----------------------------------------------")
+        res.json(results);
+    }catch(error){
+        console.log("-----------------------------------------------")
+        console.log("error:",error);
+        console.log("-----------------------------------------------")
+        res.status(500).send(error);
+    }
+}
 
 module.exports = {
     getUsers,
@@ -92,5 +107,6 @@ module.exports = {
     addUser,
     updateUser,
     deleteUser,
-    getFullDetails
+    getFullDetails,
+    getStoreProcedureValue
 }
