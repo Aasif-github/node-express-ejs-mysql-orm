@@ -20,7 +20,7 @@ User.init(
       // allowNull defaults to true
     },
     phone_number:{
-      type:DataTypes.STRING(12),
+      type:DataTypes.STRING(30),
       allowNull: false,
     },
     date_of_birth:{

@@ -3,6 +3,7 @@ const {db, sequelize} = require('../models/index.js');
 const User = db.user;
 const Contact = db.contact;
 const myEmitter = require('./emitter.js');
+const { faker } = require('@faker-js/faker');
 
 const { v4: uuidv4 } = require('uuid');
 
@@ -14,6 +15,7 @@ const { v4: uuidv4 } = require('uuid');
 const getUsers = async(req, res) => {    
     const users = await User.findAll();
    
+    //Notify user about his profile has seen..
     myEmitter.emit('userProfileSeen', 'Akash');
     
     // res.render('users', { users });
@@ -30,6 +32,27 @@ const getUser = async(req, res) => {
     res.status(200).json({data:userDataById});
 }
 
+// add fake data in database - mysql
+const addFakeUsers = async(req, res) => {
+
+    const user = {
+        user_uuid: faker.string.uuid(),
+        first_name: faker.person.firstName(),
+        last_name:faker.person.lastName(),
+        phone_number:faker.phone.number(),
+        date_of_birth: faker.date.birthdate(),   
+        user_type:2     
+    }
+
+    if(user.length>1){
+        //create bulk
+        userData = await User.bulkCreate(user);       
+    }else{
+        userData = await User.create(user);  // create() = build() + save()
+    }
+    res.status(201).json({data: user});
+}
+
 const addUser = async(req, res) => {
     const user = req.body;
     let userData;
@@ -43,6 +66,20 @@ const addUser = async(req, res) => {
     res.status(201).json({data: user});
 }
 
+// On Update user info , there is a trigger which update audit table in database with new value and keep old value as well. Trigger name:update
+/*
+DELIMITER //
+
+CREATE TRIGGER after_user_update
+AFTER UPDATE ON users
+FOR EACH ROW
+BEGIN
+    INSERT INTO audit_logs (user_id, old_first_name, old_last_name, new_first_name, new_last_name)
+    VALUES (OLD.id, OLD.first_name, OLD.last_name, NEW.first_name, NEW.last_name);
+END //
+
+DELIMITER ;
+*/ 
 const updateUser = async(req, res) => {
     const userId = req.params.id;
     const userData = req.body;
@@ -108,5 +145,6 @@ module.exports = {
     updateUser,
     deleteUser,
     getFullDetails,
-    getStoreProcedureValue
+    getStoreProcedureValue,
+    addFakeUsers
 }

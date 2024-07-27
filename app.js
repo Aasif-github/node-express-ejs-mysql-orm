@@ -46,7 +46,9 @@ app.delete('/user/:id', userCtr.deleteUser);
 //
 app.get('/users/details', userCtr.getFullDetails);
 
-app.get('/user-pro', userCtr.getStoreProcedureValue);
+// app.get('/user-pro', userCtr.getStoreProcedureValue);
+app.post('/add-fake-user', userCtr.addFakeUsers);
+
 
 app.listen(PORT, () => {
     console.log(`server is running on ${PORT}`);
