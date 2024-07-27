@@ -276,49 +276,47 @@ console.log('End');
 - **Event Loop**: Manages and executes these callbacks, allowing Node.js to perform efficiently and handle many tasks seemingly at the same time.
 
 
-Write a MySQL query to find the department with the highest number of employees.
-
-tbl_dept --- d
-tbl_emp  --- e
-
-event loop is a machanism that enable nojdejs to performe asynchronous, non- blocking by offloading it to karnel whenever it is possiable.
-
-Phase in event loop.
-
-1. Timers
-2. Pending callbacks: setTimeout and setIntervel
-3. idle, prepare
-4. poll
-5. check: 
-6. close callbacks
 
 
-SELECT e.E_id, d.department_name, COUNT(e.E_id) as emp_count
-FROM tbl_emp as e 
-INNER JOIN tbl_dep as d 
-ON e.E_id = d.Dept_id 
-GROUP BY Dept
-ORDER BY emp_count desc
-LIMIT 1;
-
-$lookup - left outer join same as left join
-
-db.collection_name.aggregate([
-  {
-    $lookup:{
-      from: "",
-      localField:""
-      foreginField:""
-      as:""
-    }
-  }
-]);
 
 
-$match
-$sort
-$project
-$group
-$lookup
-$out
-$limit
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE FetchAllUsers()
+BEGIN
+    SELECT * FROM users;
+END //
+
+DELIMITER ;
+
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE GetUserById(IN userId INT)
+BEGIN
+    SELECT * FROM users WHERE id = userId;
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE TRIGGER after_user_update
+AFTER UPDATE ON users
+FOR EACH ROW
+BEGIN
+    INSERT INTO audit_logs (user_id, old_first_name, old_last_name, new_first_name, new_last_name)
+    VALUES (OLD.id, OLD.first_name, OLD.last_name, NEW.first_name, NEW.last_name);
+END //
+
+DELIMITER ;
+--------------
+Trigger
+views
+stored procedure + sql ORM
